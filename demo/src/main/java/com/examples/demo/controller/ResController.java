@@ -28,6 +28,9 @@ public class ResController {
     }
     private void print(){
 
+        int a = 0 ;
+        int b= 0 ;
+        in s = a+b;
     }
 
 
