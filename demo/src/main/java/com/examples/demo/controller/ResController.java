@@ -26,4 +26,12 @@ public class ResController {
         int y = 0;
         int m = x+y;
     }
+    private void print(){
+
+    }
+
+
+
+
+
 }
