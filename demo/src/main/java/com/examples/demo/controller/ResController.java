@@ -20,6 +20,7 @@ public class ResController {
     }
 
     int m = 0;
+    int a = 0;
     public void addRes(){
         int x = 0 ;
         int y = 0;
