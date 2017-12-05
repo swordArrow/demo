@@ -19,6 +19,7 @@ public class ResController {
             return rs.findAllRes();
     }
 
+    int m = 0;
     public void addRes(){
         int x = 0 ;
         int y = 0;
