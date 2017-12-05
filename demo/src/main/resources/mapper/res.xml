@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.examples.demo.dao.ResDao">
+    <resultMap id="m1" type="com.examples.demo.entity.Res">
+        <result property="text" column="text"/>
+        <collection property="children" javaType="com.examples.demo.entity.Res">
+            <result property="text" column="s_text"/>
+            <result property="url" column="s_url"/>
+        </collection>
+    </resultMap>
+    <select id="findAllRes" resultMap="m1">
+        SELECT R.TEXT,S.TEXT AS S_TEXT,S.URL AS S_URL FROM RES R LEFT JOIN RES S  ON  S.PARENTID  = R.ID  WHERE  R.ID=1;
+    </select>
+
+</mapper>

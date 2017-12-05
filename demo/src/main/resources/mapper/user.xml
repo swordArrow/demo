@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.examples.demo.dao.UserDao">
+    <resultMap id ="m1" type="com.examples.demo.entity.User">
+            <result property="account" column="account"/>
+        <collection property="set" javaType="com.examples.demo.entity.Role">
+            <result property="rname" column="rname"/>
+        </collection>
+    </resultMap>
+    <select id="findAllUser" resultMap="m1">
+    SELECT  U.ACCOUNT,R.RNAME FROM  USER U INNER JOIN UR UR ON UR.U_ID=U.ID INNER JOIN ROLE R  ON R.ID= UR.R_ID
+    </select>
+    <insert id="addUser" parameterType="com.examples.demo.entity.User" >
+        INSERT  INTO  USER (account,pwd) VALUES (#{account},#{pwd})
+    </insert>
+    <delete id="deleteUser" parameterType="list" >
+        DELETE  FROM USER WHERE  id IN
+          <foreach collection="list" item="x" open="(" separator="," close=")">
+              #{x}
+          </foreach>
+
+    </delete>
+    <update id="updateUser" parameterType="com.examples.demo.entity.User">
+              UPDATE  USER  SET account=#{account},pwd=#{pwd} WHERE id = #{id}
+    </update>
+
+</mapper>

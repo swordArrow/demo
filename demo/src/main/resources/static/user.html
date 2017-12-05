@@ -1,0 +1,114 @@
+
+    <div id="first"></div>
+     <!--弹出窗口-->
+     <div id="window_user_add" class="easyui-window" data-options="closed:true,modal:true" style="width:300px;height:400px;">
+         <form id="form_user_add" action="saveUser">
+             <input type="hidden" name="id"/>
+             <input name="account" class="textbox"/>
+             <input name="pwd" type="password"   class="textbox passwordbox-open"/>
+         </form>
+         <div>
+             <button onclick="save()">保存</button>
+         </div>
+     </div>
+
+
+
+
+
+    <script>
+        function init() {
+            $("#first").datagrid({
+                title:"用户管理",
+                url:"find",
+                method:"get",
+                columns:[[
+                    {field:"id",checkbox:true},
+                    {field:"account",title:"账号",width:200},
+                    {field:"",title:"角色",width:200,
+                        formatter:function(value,row,index){
+                                var str ="";
+                                var info= row.set
+                            $(info).each( function () {
+                                str += this.rname;
+                                str+="      ";
+                            }
+
+
+                            )
+                            return str ;
+                        }
+                    }
+                ]],
+                toolbar:[
+                    {text:"添加",iconCls:"icon-add",handler:function(){toUser();}},
+                    {text:"修改",iconCls:"icon-edit",handler:function () {
+                        toEditUser();
+                    }},
+                    {text:"删除",iconCls:"icon-remove", handler:function (){delUsers()}}
+                ]
+            });
+        }
+        //页面渲染完毕再调用
+        $(init);
+        function toUser() {
+            $("#form_user_add").form("load",{
+                id:0,
+                account:"",
+                pwd:""
+            });
+            $("#window_user_add").window("open");
+        }
+        function save() {
+            //提交到saveUser
+            $("#form_user_add").form("submit",{
+                success:function(d){
+                    $("#first").datagrid("reload");
+                    $("#window_user_add").window("close");
+                }
+            });
+        }
+        //删除
+        function  delUsers(){
+            var user=$("#first").datagrid("getSelections");
+            //定义数组
+            var ars=[];
+            for(var i=0; i<user.length;i++){
+                ars[i] = user[i].id;
+            }
+            alert(typeof (ars));
+            var  json = JSON.stringify(ars);
+            alert(typeof(json));
+            $.ajax({
+                url:"deleteUser",
+                method:"post",
+                data:json,
+                contentType:"application/json",
+                success:function (data) {
+                    $("#first").datagrid("reload");
+                }
+            })
+        }
+        //修改用户信息
+        function toEditUser(){
+            var user =$("#first").datagrid("getSelected")
+            if(user ){
+                $("#form_user_add").form("load",{
+                    id:user.id,
+                    account:user.account,
+                    pwd:user.pwd
+                });
+                $("#window_user_add").window("open");
+            }else{
+                $.messager.alert("系统 提示","请选择一条数据");
+            }
+
+
+        }
+    </script>
+
+
+
+
+
+
